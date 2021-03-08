@@ -15,5 +15,10 @@ class Employee {
     this.getEmail = function () {
       return this.email
     }
+    this.getRole = function () {
+      return 'Employee'
+    }
   }
 }
+
+module.exports = Employee
