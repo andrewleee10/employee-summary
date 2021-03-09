@@ -10,11 +10,150 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-const employees = [new Intern('John Doe', 1, 'johndoe@email.com', 'USC'), new Intern('Jane Doe', 2, 'janedoe@email.com', 'UCLA'), new Engineer('Jack Doe', 1, 'jackdoe@email.com', 'jackdoe123'), new Manager('James Doe', 1, 'jamesdoe@email.com', 10)]
+const employees = []
 
-fs.writeFile(outputPath, render(employees), err => {
-  if(err) { console.log(err) } 
-})
+const intern = () => {
+  inquirer.prompt ([
+    {
+      type: 'input',
+      name: 'name',
+      message: 'Enter name:'
+    },
+    {
+      type: 'input',
+      name: 'id',
+      message: 'Enter id:'
+    },
+    {
+      type: 'input',
+      name: 'email',
+      message: 'Enter email:'
+    },
+    {
+      type: 'input',
+      name: 'school',
+      message: 'Enter school:'
+    }
+  ])
+    .then(res => {
+      employees.push(new Intern(res.name, res.id, res.email, res.school))
+      addAnother()
+    })
+    .catch(err => {console.log(err) })
+}
+
+const engineer = () => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'name',
+      message: 'Enter name:'
+    },
+    {
+      type: 'input',
+      name: 'id',
+      message: 'Enter id:'
+    },
+    {
+      type: 'input',
+      name: 'email',
+      message: 'Enter email:'
+    },
+    {
+      type: 'input',
+      name: 'github',
+      message: 'Enter github username:'
+    }
+  ])
+    .then(res => {
+      employees.push(new Engineer(res.name, res.id, res.email, res.github))
+      addAnother()
+    })
+    .catch(err => { console.log(err) })
+}
+
+const manager = () => {
+  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'name',
+      message: 'Enter name:'
+    },
+    {
+      type: 'input',
+      name: 'id',
+      message: 'Enter id:'
+    },
+    {
+      type: 'input',
+      name: 'email',
+      message: 'Enter email:'
+    },
+    {
+      type: 'input',
+      name: 'office',
+      message: 'Enter office number:'
+    }
+  ])
+    .then(res => {
+      employees.push(new Manager(res.name, res.id, res.email, res.school))
+      addAnother()
+    })
+    .catch(err => { console.log(err) })
+}
+
+const addAnother = () => {
+  inquirer.prompt ([
+    {
+      type: 'list',
+      name: 'another',
+      message: 'Create another?',
+      choices: ['Yes', 'No']
+    }
+  ])
+    .then ( ({another}) => {
+      if(another === "Yes") {
+        selectRole()
+      } else {
+          fs.writeFile(outputPath, render(employees), err => {
+            if (err) { console.log(err) }
+          })
+      }
+    })
+}
+
+const selectRole = () => {
+  inquirer.prompt ([
+    {
+      type: 'list',
+      name: 'role',
+      message: 'Select an employee type:',
+      choices: ['Intern', 'Engineer', 'Manager']
+    }
+  ])
+    .then (({role}) => {
+      if(role === 'Intern') {
+        intern()
+      }
+      if(role === 'Engineer') {
+        engineer()
+        }
+      if(role === 'Manager') {
+        manager()
+      }
+    })
+    .catch (err => { console.log(err) })
+}
+
+selectRole()
+
+
+
+// const employees = [new Intern('John Doe', 1, 'johndoe@email.com', 'USC'), new Intern('Jane Doe', 2, 'janedoe@email.com', 'UCLA'), new Engineer('Jack Doe', 1, 'jackdoe@email.com', 'jackdoe123'), new Manager('James Doe', 1, 'jamesdoe@email.com', 10)]
+
+// fs.writeFile(outputPath, render(employees), err => {
+//   if(err) { console.log(err) } 
+// })
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
