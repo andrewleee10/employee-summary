@@ -148,13 +148,6 @@ const selectRole = () => {
 selectRole()
 
 
-
-// const employees = [new Intern('John Doe', 1, 'johndoe@email.com', 'USC'), new Intern('Jane Doe', 2, 'janedoe@email.com', 'UCLA'), new Engineer('Jack Doe', 1, 'jackdoe@email.com', 'jackdoe123'), new Manager('James Doe', 1, 'jamesdoe@email.com', 10)]
-
-// fs.writeFile(outputPath, render(employees), err => {
-//   if(err) { console.log(err) } 
-// })
-
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
